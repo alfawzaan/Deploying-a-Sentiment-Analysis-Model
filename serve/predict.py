@@ -71,11 +71,13 @@ def predict_fn(input_data, model):
     #         data_len - The length of the review
 
 
-    data_X = None
-    data_len = None
+#     data_X = None
+#     data_len = None
 
     words = review_to_words(input_data)
     data_X, data_len = convert_and_pad(model.word_dict, words)
+    print(data_len)
+    print(data_X)
     # Using data_X and data_len we construct an appropriate input tensor. Remember
     # that our model expects input data of the form 'len, review[500]'.
     data_pack = np.hstack((data_len, data_X))
@@ -92,6 +94,5 @@ def predict_fn(input_data, model):
     
     with torch.no_grad():
         out = model.forward(data)
-        result = torch.round(out.numpy())
-
+    result = np.round(out.numpy())
     return result
